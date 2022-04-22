@@ -1,0 +1,100 @@
+import urllib
+from urllib import request
+import json
+import os
+import sys
+from colorama import Fore, Back, Style
+exclude = []
+mode = ""
+def user_list_repo_names(user):
+    """list all the repo names in a user"""
+    url = 'https://api.github.com/users/' + user + '/repos'
+    request = urllib.request.Request(url)
+    response = urllib.request.urlopen(request)
+    data = json.loads(response.read().decode())
+    return [repo['name'] for repo in data]
+def org_list_repo_names(org):
+    """list all the repo names in a user"""
+    url = 'https://api.github.com/orgs/' + org + '/repos'
+    request = urllib.request.Request(url)
+    response = urllib.request.urlopen(request)
+    data = json.loads(response.read().decode())
+    return [repo['name'] for repo in data]
+
+def clone_user(user):
+    for i in user_list_repo_names(user):
+        if i in exclude:
+            continue
+        os.system('git clone https://github.com/' +user+"/"+i)
+def clone_org(org):
+    for i in org_list_repo_names(org):
+        if i in exclude:
+            continue
+        os.system('git clone https://github.com/' +org+"/"+i)
+
+if __name__ == "__main__":
+    print("GitHub Bulk Clone Tool")
+    mode = "user"
+    for i in sys.argv:
+        if i.startswith("--exclude="):
+            i = i.replace("--exclude=", "")
+            for i in i.split(","):
+                exclude.append(i)
+        elif i == "-o":
+            mode = "org"
+        elif i == "-u":
+            mode = "user"
+    if mode == "org":
+        try:
+            org_list_repo_names(sys.argv[-1])
+        except urllib.error.HTTPError:
+            print(Fore.RED+"User not found"+Style.RESET_ALL)
+            sys.exit(1)
+        print("The organisation "+sys.argv[-1]+" has "+str(len(org_list_repo_names(sys.argv[-1])))+" repos")
+        print(Fore.CYAN+"The repos are:"+Style.RESET_ALL)
+        for i in org_list_repo_names(sys.argv[-1]):
+            print(Fore.GREEN+i,end=" "+Style.RESET_ALL)
+        print("\n")
+        if len(exclude) > 0:
+            print("The repos you want to exclude are:")
+            for i in exclude:
+                print(Fore.RED+i,end=" "+Style.RESET_ALL)
+            print("\n")
+
+        print("Are you sure you want to clone these repos? (y/n)")
+        while True:
+            ans = input(">")
+            if ans == "y":
+                break
+            elif ans == "n":
+                sys.exit(0)
+            else:
+                print("Please enter y or n")
+        clone_org(sys.argv[-1])
+    if mode == "user":
+        try:
+            user_list_repo_names(sys.argv[-1])
+        except urllib.error.HTTPError:
+            print(Fore.RED+"User not found"+Style.RESET_ALL)
+            sys.exit(1)
+        print("The user "+sys.argv[-1]+" has "+str(len(user_list_repo_names(sys.argv[-1])))+" repos")
+        print(Fore.CYAN+"The repos are:"+Style.RESET_ALL)
+        for i in user_list_repo_names(sys.argv[-1]):
+            print(Fore.GREEN+i,end=" "+Style.RESET_ALL)
+        print("\n")
+        if len(exclude) > 0:
+            print("The repos you want to exclude are:")
+            for i in exclude:
+                print(Fore.RED+i,end=" "+Style.RESET_ALL)
+            print("\n")
+        
+        print("Are you sure you want to clone these repos? (y/n)")
+        while True:
+            ans = input(">")
+            if ans == "y":
+                break
+            elif ans == "n":
+                sys.exit(0)
+            else:
+                print("Please enter y or n")
+        clone_user(sys.argv[-1])
