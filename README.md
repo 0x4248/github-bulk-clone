@@ -43,3 +43,8 @@ Note: You can use a comma separated list of repository's to exclude. e.g: `--exc
 - A working internet connection
 - A working git configuration
 - Your api.github.com rate limit is not going to be exceeded. (if it is you will get an error)
+
+## Download my repos but not the large forks
+```cmd
+python main.py --exclude=os,jdk,logging-log4j1,linux,MineAssemble,ish,nt5src awesomelewis2007
+```
