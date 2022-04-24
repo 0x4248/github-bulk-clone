@@ -7,14 +7,12 @@ from colorama import Fore, Back, Style
 exclude = []
 mode = ""
 def user_list_repo_names(user):
-    """list all the repo names in a user"""
     url = 'https://api.github.com/users/' + user + '/repos'
     request = urllib.request.Request(url)
     response = urllib.request.urlopen(request)
     data = json.loads(response.read().decode())
     return [repo['name'] for repo in data]
 def org_list_repo_names(org):
-    """list all the repo names in a user"""
     url = 'https://api.github.com/orgs/' + org + '/repos'
     request = urllib.request.Request(url)
     response = urllib.request.urlopen(request)
