@@ -6,6 +6,8 @@ import sys
 from colorama import Fore, Back, Style
 exclude = []
 mode = ""
+user_list_repo_cache = ""
+org_list_repo_cache = ""
 def user_list_repo_names(user):
     url = 'https://api.github.com/users/' + user + '/repos'
     request = urllib.request.Request(url)
@@ -44,13 +46,13 @@ if __name__ == "__main__":
             mode = "user"
     if mode == "org":
         try:
-            org_list_repo_names(sys.argv[-1])
+            org_list_repo_cache = org_list_repo_names(sys.argv[-1])
         except urllib.error.HTTPError:
             print(Fore.RED+"User not found"+Style.RESET_ALL)
             sys.exit(1)
-        print("The organisation "+sys.argv[-1]+" has "+str(len(org_list_repo_names(sys.argv[-1])))+" repos")
+        print("The organisation "+sys.argv[-1]+" has "+str(len(org_list_repo_cache))+" repos")
         print(Fore.CYAN+"The repos are:"+Style.RESET_ALL)
-        for i in org_list_repo_names(sys.argv[-1]):
+        for i in org_list_repo_cache:
             print(Fore.GREEN+i,end=" "+Style.RESET_ALL)
         print("\n")
         if len(exclude) > 0:
@@ -71,13 +73,13 @@ if __name__ == "__main__":
         clone_org(sys.argv[-1])
     if mode == "user":
         try:
-            user_list_repo_names(sys.argv[-1])
+            user_list_repo_cache = user_list_repo_names(sys.argv[-1])
         except urllib.error.HTTPError:
             print(Fore.RED+"User not found"+Style.RESET_ALL)
             sys.exit(1)
-        print("The user "+sys.argv[-1]+" has "+str(len(user_list_repo_names(sys.argv[-1])))+" repos")
+        print("The user "+sys.argv[-1]+" has "+str(len(user_list_repo_cache))+" repos")
         print(Fore.CYAN+"The repos are:"+Style.RESET_ALL)
-        for i in user_list_repo_names(sys.argv[-1]):
+        for i in user_list_repo_cache:
             print(Fore.GREEN+i,end=" "+Style.RESET_ALL)
         print("\n")
         if len(exclude) > 0:
