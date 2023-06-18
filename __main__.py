@@ -15,12 +15,15 @@ mode = ""
 user_list_repo_cache = ""
 org_list_repo_cache = ""
 def user_list_repo_names(user):
+    """Returns a list of the names of the repos owned by user."""
     url = 'https://api.github.com/users/' + user + '/repos'
     request = urllib.request.Request(url)
     response = urllib.request.urlopen(request)
     data = json.loads(response.read().decode())
     return [repo['name'] for repo in data]
+
 def org_list_repo_names(org):
+    """Returns a list of the names of the repos owned by org."""
     url = 'https://api.github.com/orgs/' + org + '/repos'
     request = urllib.request.Request(url)
     response = urllib.request.urlopen(request)
@@ -28,15 +31,11 @@ def org_list_repo_names(org):
     return [repo['name'] for repo in data]
 
 def clone_user(user):
+    """Clones the repos owned by user."""
     for i in user_list_repo_names(user):
         if i in exclude:
             continue
-        os.system('git clone https://github.com/' +user+"/"+i)
-def clone_org(org):
-    for i in org_list_repo_names(org):
-        if i in exclude:
-            continue
-        os.system('git clone https://github.com/' +org+"/"+i)
+        os.system('git clone 
 
 if __name__ == "__main__":
     print("GitHub Bulk Clone Tool")
