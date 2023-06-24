@@ -1,0 +1,14 @@
+{
+    "name": "github-bulk-clone",
+    "description": "Quickly Download all of a users or organisations public repository's.",
+    "version": "",
+    "main_file": "__main__.py",
+    "author": "Lewis Evans",
+    "license": "GNU General Public License v3.0",
+    "url": "https://www.github.com/awesomelewis2007/github-bulk-clone",
+    "email": "none",
+    "languages": [
+        "python"
+    ],
+    "actions": {}
+}
