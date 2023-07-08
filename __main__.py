@@ -2,7 +2,7 @@
 # Github bulk clone
 # Quickly Download all of a users or organisations public repository's.
 # Github: https://www.github.com/lewisevans2007/github-bulk-clone
-# License: GNU General Public License v3.0
+# Licence: GNU General Public License v3.0
 
 import urllib
 from urllib import request
