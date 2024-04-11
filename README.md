@@ -46,5 +46,5 @@ Note: You can use a comma separated list of repository's to exclude. e.g: `--exc
 
 ## Download my repos but not the large forks
 ```cmd
-python main.py --exclude=os,jdk,logging-log4j1,linux,MineAssemble,ish,nt5src lewisevans2007
+python main.py --exclude=os,jdk,logging-log4j1,linux,MineAssemble,ish,nt5src 0x4248
 ```
